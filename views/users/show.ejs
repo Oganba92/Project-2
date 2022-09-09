@@ -1,0 +1,54 @@
+<%- include('../partials/header') %>
+
+
+<section id="show-page-user">
+  <div>Name: </div>
+  <div><%= user.name %></div>
+  <div>Phone Number: </div>
+  <div><%= user.phone_no %></div>
+  <div>Address: </div>
+  <div><%= user.address %></div>
+  <div>Email: </div>
+  <div><%= user.email %></div>
+  <div>Preferred Payment Method:</div>
+  <div><%= user.pref_payment %></div>  
+  <label>Posted products by user:</label>
+  <form name="postedbyuser" onsubmit="actionOnSubmit()" method="GET" >
+    <select id="products-of-user" name="products-of-user">
+      <% products.forEach(function(m) { %>
+      <option value="<%= m._id %>"><%= m.title %></option>
+      <% }); %>
+    </select>
+    <input type="submit" value="Go to product" class="button">
+    </form>  
+
+    <script>
+      function actionOnSubmit(){
+        var e = document.getElementById("products-of-user");
+        var formaction = "/products/" + String(e.options[e.selectedIndex].value);
+        document.postedbyuser.action = formaction;
+      }
+    </script>
+</section>
+
+<form id="update-user-form" action="/users/<%= user._id %>" method="POST">
+  <label>Avatar link:</label>
+  <input type="text" name="avatar">
+  <label>Phone Number: </label>
+  <input type="number" name="phone_no">
+  <label>Address:<label>
+  <input type="text" name="address">
+  <label> Email:</label>
+  <input type="text" name="email">
+  <label> Preferred Payment Method:</label>
+  <select name="pref_payment">
+    <option value='Cash'>Cash</option>
+    <option value='Credit'>Credit</option>
+    <option value='Check'>Check</option>
+    <option value='Venmo'>Venmo</option>
+  </select>
+  <input type="submit" value="Update Profile">
+</form>
+
+
+<%- include('../partials/footer') %>

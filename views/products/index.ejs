@@ -1,0 +1,38 @@
+<%- include('../partials/header') %>
+
+<table id="list">
+  <label>Filter by brand:</label>
+  <form id="choose-brand-form" action="/products/filtered" method="POST" >
+  <select name="brand">
+    <% brands.forEach(function(m) { %>
+    <option value="<%= m._id %>"><%= m.name %></option>
+    <% }); %>
+  </select>
+  <input type="submit" value="Filter">
+  </form>
+  <thead>
+    <tr>
+      <th>Product name</th>
+      <th>Purchase<br>Year</th>
+      <th>Brand<br>Name</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    <% products.forEach(function(m) { %>
+      <tr>
+        <td><%= m.title %></td>
+        <td><%= m.purchase_date %></td>
+        <td><%= m.brand.name %></td>
+        <td><a href="/products/<%= m._id %>">DETAILS</a></td>
+        <td><% if (user && user._id.equals(m.user._id)) { %>
+          <form action="/products/<%= m._id %>?_method=DELETE" method="POST">
+            <button type="submit">X</button>
+          </form>
+        <% } %></td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  
+<%- include('../partials/footer') %>

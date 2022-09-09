@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('project-2:server');
+var app = require('../server');
+var debug = require('debug')('mongoose-movies:server');
 var http = require('http');
 
 /**

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <title><%= title %></title>
+</head>
+<body>
+  <nav>
+    <img src="/images/camera.svg">
+    <a href="/products" <%- title === 'All Products' ? 'class="active"' : '' %>>ALL PRODUCTS</a>
+    <% if (user) { %>
+      <a href="/users/see/<%= user._id %>"	<%- title === 'See Profile' ? 'class="active"' : '' %>>
+        SEE PROFILE</a>
+      <a href="/brands/new"	<%- title === 'Add brands' ? 'class="active"' : '' %>>
+      ADD BRANDS</a>
+      <a href="/products/new" <%- title === 'Add Products' ? 'class="active"' : '' %>>ADD PRODUCTS</a>
+      <a href="/logout">LOG OUT</a>
+
+    <% } else { %>
+      <a href="/auth/google" class="login">LOG IN&nbsp;<img src="https://i.imgur.com/FHjYyi0.png"></a>
+    <% } %>
+  </nav>
+  <main>
+    <h1><%= title %></h1>

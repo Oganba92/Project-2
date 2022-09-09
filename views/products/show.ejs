@@ -1,0 +1,144 @@
+<%- include('../partials/header') %>
+
+<section id="show-page">
+  <form id="prod-update-form" action="/products/<%= product._id %>"" method="POST">
+  <div><label>Name: </label></div>
+  <div><%= product.title %></div>
+  <% if (user && user._id.equals(prod_owner._id)) { %>
+  <input type="text" name="title" value="<%= product.title %>">
+  <% } else { %>
+    <div></div>
+    <% } %>
+  <div><label>Purchase date: </label></div>
+  <div><%= product.purchase_date %></div>
+  <% if (user && user._id.equals(prod_owner._id)) { %>
+  <input type="text" name="purchase_date" value="<%= product.purchase_date %>">
+  <% } else { %>
+    <div></div>
+    <% } %>
+  <div><label>Condition: </label></div>
+  <div><%= product.condition %></div>
+  <% if (user && user._id.equals(prod_owner._id)) { %>
+    <select name="condition">
+      <option value="Damaged">Damaged</option>
+      <option value="Old">Old</option>
+      <option value="Used">Used</option>
+      <option value="New">New</option>
+      <option value="Wrapped/Boxed">Wrapped/Boxed</option>
+    </select>
+  <% } else { %>
+    <div></div>
+    <% } %>
+  <div><label>Address: </label></div>
+  <div><%= product.address %></div>
+  <% if (user && user._id.equals(prod_owner._id)) { %>
+  <input type="text" name="address" value="<%= product.address %>">
+  <% } else { %>
+    <div></div>
+    <% } %>
+  <div><label>Explanation: </label></div>
+  <div><%= product.content %></div>
+  <% if (user && user._id.equals(prod_owner._id)) { %>
+  <input type="text" name="content" value="<%= product.content %>">
+  <% } else { %>
+    <div></div>
+    <% } %> 
+  <div><label>Brand: </label></div>
+<div><%= brand.name %></div> 
+<% if (user && user._id.equals(prod_owner._id)) { %>
+  <select name="brand">
+    <% brands.forEach(function(m) { %>
+    <option value="<%= m._id %>"><%= m.name %></option>
+    <% }); %>
+  </select>
+<% } else { %>
+  <div></div>
+  <% } %>
+<div><label>Price:  </label></div>
+<div>$<%= product.price %></div> 
+<% if (user && user._id.equals(prod_owner._id)) { %>
+<input type="text" name="price" value="<%= product.price %>">
+<% } else { %>
+  <div></div>
+  <% } %>
+  <button type="submit">Update</button>
+  </form>
+  
+  <section id="show-page-prod-user"> 
+<div>Product seller: </div>
+<div><%= prod_owner.name %></div>
+<div>Seller phone number: </div>
+<div><%= prod_owner.phone_no %></div>
+<div>Seller email: </div>
+<div><%= prod_owner.email %></div>
+<div>Payment method: </div>
+<div><%= prod_owner.pref_payment %></div>
+<% if (user && user._id.equals(prod_owner._id)) { %>
+  <div>Delete product</div>
+  <div><form action="/products/<%= product._id %>?_method=DELETE" method="POST">
+     <button type="submit">X</button>
+   </form></div>
+ <% } %>
+  </section>
+ 
+</section>
+
+<br><br>
+<h2>Reviews</h2>
+<% if (user) { %>
+  <form id="add-review-form" method="POST" action="/products/<%= product._id %>/reviews">
+    <label>Review:</label>
+    <textarea name="content"></textarea>
+    <label>Rating:</label>
+    <select name="rating">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <input type="submit" value="Add Review">
+  </form>
+<% } %>
+
+<% if (product.reviews.length) { %>
+  <table>
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Date</th>
+        <th>Review</th>
+        <th>Rating</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% let total = 0 %>
+      <% product.reviews.forEach(function(r) { %>
+        <% total += r.rating %>
+        <tr>
+          <td class="review-user"><img src="<%= r.userAvatar %>"><%= r.userName %></td>
+          <td><%= r.createdAt.toLocaleDateString() %></td>
+          <td><%= r.content %></td>
+          <td><%= r.rating %></td>
+          <td>
+            <% if (user && user._id.equals(r.user)) { %>
+              <form action="/reviews/<%= r._id %>?_method=DELETE" method="POST">
+                <button type="submit">X</button>
+              </form>
+            <% } %>
+          </td>
+        </tr>
+      <% }); %>
+      <tr>
+        <td colspan="3"></td>
+        <td><strong><%= (total / product.reviews.length).toFixed(1) %></strong></td>
+      </tr>
+    </tbody>
+  </table>
+<% } else { %>
+  <h5>No Reviews Yet</h5>
+<% } %>
+
+
+<%- include('../partials/footer') %>

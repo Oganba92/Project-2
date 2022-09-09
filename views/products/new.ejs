@@ -1,0 +1,28 @@
+<%- include('../partials/header') %>
+
+<form id="new-form" action="/products" method="POST">
+  <label>Name (please name what you are selling):</label>
+  <input type="text" name="title">
+  <label>Purchase date:</label>
+  <input type="number" name="purchase_date">
+  <label> Condition</label>
+  <select name="condition"> 
+    <option value="Damaged">Damaged</option>
+    <option value="Old">Old</option>
+    <option value="Used">Used</option>
+    <option value="New">New</option>
+    <option value="Wrapped/Boxed">Unopened/Not Used</option>
+  </select>
+  <label>Address:<label>
+  <input type="text" name="address" value="<%= user.address %>" size="23">
+  <label>Explanation: </label>
+  <textarea type="text" name="content"></textarea>
+  <label>Brand: </label>
+  <input type="text" name="brand" size="23">
+  <label>Price: </label>
+  <input type="number" name="price" size="23">
+  
+  <input type="submit" value="Add Product">
+</form>
+
+<%- include('../partials/footer') %>
